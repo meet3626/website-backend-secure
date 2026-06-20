@@ -113,24 +113,26 @@ const Contact = () => {
                     <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-2">Name</label>
                     <input
                       type="text"
-                      {...register("name", { required: "Name is required" })}
+                      {...register("contact_name_field", { required: "Name is required" })}
+                      autoComplete="new-password"
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent-cyan transition-colors"
-                      placeholder=" "
+                      placeholder=""
                     />
-                    {errors.name && <span className="text-red-400 text-xs mt-1 block">{errors.name.message}</span>}
+                    {errors.contact_name_field && <span className="text-red-400 text-xs mt-1 block">{errors.contact_name_field.message}</span>}
                   </div>
                   <div>
                     <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-2">Phone</label>
                     <input
                       type="tel"
-                      {...register("phone", {
+                      {...register("contact_phone_field", {
                         required: "Phone is required",
                         pattern: { value: /^[+]?[(]?[0-9]{1,4}[)]?[-\s\./0-9]*$/, message: "Invalid phone number" }
                       })}
+                      autoComplete="new-password"
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent-cyan transition-colors"
-                      placeholder=" "
+                      placeholder=""
                     />
-                    {errors.phone && <span className="text-red-400 text-xs mt-1 block">{errors.phone.message}</span>}
+                    {errors.contact_phone_field && <span className="text-red-400 text-xs mt-1 block">{errors.contact_phone_field.message}</span>}
                   </div>
                 </div>
 
@@ -138,14 +140,15 @@ const Contact = () => {
                   <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-2">Email</label>
                   <input
                     type="email"
-                    {...register("email", {
+                    {...register("contact_email_field", {
                       required: "Email is required",
                       pattern: { value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, message: "Invalid email address" }
                     })}
+                    autoComplete="new-password"
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent-cyan transition-colors"
-                    placeholder=" "
+                    placeholder=""
                   />
-                  {errors.email && <span className="text-red-400 text-xs mt-1 block">{errors.email.message}</span>}
+                  {errors.contact_email_field && <span className="text-red-400 text-xs mt-1 block">{errors.contact_email_field.message}</span>}
                 </div>
 
                 <div>
@@ -154,7 +157,7 @@ const Contact = () => {
                     {...register("message", { required: "Message is required" })}
                     rows={4}
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent-cyan transition-colors resize-none"
-                    placeholder="Tell us about your Requirement..."
+                    placeholder="Please tell us about your requirements..."
                   ></textarea>
                   {errors.message && <span className="text-red-400 text-xs mt-1 block">{errors.message.message}</span>}
                 </div>
