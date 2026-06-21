@@ -1,24 +1,42 @@
-import React from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const ParticleNetwork = () => {
-  // Generate random points for the network
-  const numNodes = 40;
-  const nodes = Array.from({ length: numNodes }).map((_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 3 + 1,
-  }));
+  const [isMobile, setIsMobile] = useState(false);
 
-  const edges = [];
-  for (let i = 0; i < numNodes; i++) {
-    for (let j = i + 1; j < numNodes; j++) {
-      if (Math.random() > 0.85) {
-        edges.push({ id: `${i}-${j}`, from: nodes[i], to: nodes[j] });
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const { nodes, edges } = useMemo(() => {
+    // Generate fewer nodes on mobile to significantly boost performance
+    const numNodes = isMobile ? 15 : 40;
+    
+    const generatedNodes = Array.from({ length: numNodes }).map((_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 3 + 1,
+    }));
+
+    const generatedEdges = [];
+    for (let i = 0; i < numNodes; i++) {
+      for (let j = i + 1; j < numNodes; j++) {
+        // Reduced edge probability on mobile
+        const probability = isMobile ? 0.90 : 0.85; 
+        if (Math.random() > probability) {
+          generatedEdges.push({ id: `${i}-${j}`, from: generatedNodes[i], to: generatedNodes[j] });
+        }
       }
     }
-  }
+    
+    return { nodes: generatedNodes, edges: generatedEdges };
+  }, [isMobile]);
 
   return (
     <div className="absolute inset-0 right-0 left-auto w-full md:w-[60%] h-full overflow-hidden opacity-30 pointer-events-none z-0">

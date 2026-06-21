@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 import Hero from '@/components/Hero';
-import Services from '@/components/Services';
-import Features from '@/components/Features';
-import Roadmap from '@/components/Roadmap';
-import Insights from '@/components/Insights';
-import FAQ from '@/components/FAQ';
-import Testimonials from '@/components/Testimonials';
-import Partners from '@/components/Partners';
-import CTA from '@/components/CTA';
 import SectionAnimator from '@/components/SectionAnimator';
 import SEOHead from '@/components/SEOHead';
+
+// Lazy load below-the-fold sections
+const Services = React.lazy(() => import('@/components/Services'));
+const Features = React.lazy(() => import('@/components/Features'));
+const Roadmap = React.lazy(() => import('@/components/Roadmap'));
+const Insights = React.lazy(() => import('@/components/Insights'));
+const FAQ = React.lazy(() => import('@/components/FAQ'));
+const Testimonials = React.lazy(() => import('@/components/Testimonials'));
+const Partners = React.lazy(() => import('@/components/Partners'));
+const CTA = React.lazy(() => import('@/components/CTA'));
 
 const Home = () => {
   return (
@@ -21,14 +23,18 @@ const Home = () => {
       />
 
       <Hero />
-      <SectionAnimator><Services /></SectionAnimator>
-      <SectionAnimator><Features /></SectionAnimator>
-      <Roadmap />
-      <SectionAnimator><Insights /></SectionAnimator>
-      <SectionAnimator><FAQ /></SectionAnimator>
-      <SectionAnimator><Testimonials /></SectionAnimator>
-      <SectionAnimator><Partners /></SectionAnimator>
-      <SectionAnimator><CTA /></SectionAnimator>
+      
+      {/* Fallback space while components load */}
+      <Suspense fallback={<div className="h-64" />}>
+        <SectionAnimator><Services /></SectionAnimator>
+        <SectionAnimator><Features /></SectionAnimator>
+        <Roadmap />
+        <SectionAnimator><Insights /></SectionAnimator>
+        <SectionAnimator><FAQ /></SectionAnimator>
+        <SectionAnimator><Testimonials /></SectionAnimator>
+        <SectionAnimator><Partners /></SectionAnimator>
+        <SectionAnimator><CTA /></SectionAnimator>
+      </Suspense>
     </div>
   );
 };
